@@ -10,7 +10,7 @@ interface Styles {
   innerView: ViewStyle;
   marketText: TextStyle;
   percentageText: TextStyle;
-  textAllign: TextStyle;
+  textAlign: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     width: '100%',
     maxHeight: scaleSize(65),
-    backgroundColor: '#d9d9d9',
+    backgroundColor: 'white',
     paddingHorizontal: scaleSize(10),
     paddingVertical: scaleSize(5),
     shadowColor: '#000',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create<Styles>({
   percentageText: {
     fontSize: scaleSize(20),
   },
-  textAllign: {
+  textAlign: {
     alignSelf: 'flex-end',
   },
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
-import {CurrencyRow} from '@components';
+import {CurrencyRow, HeaderData} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
-import type {CurrencyRowProps} from '@components';
+import type {CurrencyRowProps, GlobalDataProps} from '@components';
 
 type itemData = {
   index: number;
@@ -12,12 +12,15 @@ type itemData = {
 
 const HomeScreen = () => {
   const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
+  const [globalData, setGlobalData] = React.useState<
+    GlobalDataProps | undefined
+  >();
   const [start, setStart] = React.useState(0);
-  const [limit, setLimit] = React.useState(50);
   const MAX_COINS_PER_PAGE = 20;
 
-  const getSampleData = async () => {
+  const getCoinData = async () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
+
     if (!('error' in answer)) {
       const newAns = answer.data.map(coin => {
         return {
@@ -38,7 +41,14 @@ const HomeScreen = () => {
     const answer = await getGlobalData();
     if (!('error' in answer)) {
       const first = answer[0];
-      setLimit(first.coins_count);
+      setGlobalData({
+        coins: first.coins_count,
+        marketCap: first.total_mcap,
+        totalVolume: first.total_volume,
+        markets: first.active_markets,
+        btcD: first.btc_d,
+        ethD: first.eth_d,
+      });
     }
   };
 
@@ -48,7 +58,7 @@ const HomeScreen = () => {
 
   React.useEffect(
     () => {
-      getSampleData();
+      getCoinData();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [start],
@@ -60,7 +70,7 @@ const HomeScreen = () => {
   };
 
   const fetchMore = () => {
-    if (coinData.length < limit) {
+    if (globalData !== undefined && coinData.length < globalData?.coins) {
       setStart(start + MAX_COINS_PER_PAGE);
     }
   };
@@ -72,6 +82,9 @@ const HomeScreen = () => {
         renderItem={renderItem}
         onEndReachedThreshold={0.5}
         onEndReached={fetchMore}
+        ListHeaderComponent={
+          globalData !== undefined ? <HeaderData {...globalData} /> : <></>
+        }
       />
     </SafeAreaView>
   );
