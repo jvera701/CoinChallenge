@@ -25,11 +25,34 @@ interface CoinData {
   msupply: string;
 }
 
+interface GlobalData {
+  coins_count: number;
+  active_markets: number;
+  total_mcap: number;
+  total_volume: number;
+  btc_d: string;
+  eth_d: string;
+  mcap_change: string;
+  volume_change: string;
+  avg_change_percent: number;
+  volume_ath: number;
+  mcap_ath: number;
+}
+
 interface CoinAllData {
   data: CoinData[];
 }
 
-const getGlobalData = () => {};
+const getGlobalData = async () => {
+  try {
+    const response = await API.get<GlobalData[]>('/global/');
+    return response.data;
+  } catch (e) {
+    return {
+      error: 'Error',
+    };
+  }
+};
 
 const getAllCoins = async (start: number, limit: number) => {
   try {
