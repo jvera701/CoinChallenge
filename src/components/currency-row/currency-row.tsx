@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Pressable} from 'react-native';
 import styles from './currency-row.styles';
 
-type CurrencyRowProps = {
+export type CurrencyRowProps = {
   name: string;
   rank: number;
   price: number;
@@ -28,10 +28,14 @@ const CurrencyRow = (props: CurrencyRowProps) => {
         <Text style={styles.marketText}>{`$${marketCap}`}</Text>
       </View>
       <View style={styles.innerView}>
-        <Text style={styles.defaultText}>{`$${price}`}</Text>
-        <Text style={[styles.defaultText, getPercentageColor()]}>
-          {`${percentageChange}%`}{' '}
-        </Text>
+        <View style={styles.textAllign}>
+          <Text style={styles.defaultText}>{`$${price}`}</Text>
+        </View>
+        <View style={styles.textAllign}>
+          <Text style={[styles.percentageText, getPercentageColor()]}>
+            {`${percentageChange}%`}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );

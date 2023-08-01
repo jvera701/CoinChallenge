@@ -9,7 +9,8 @@
       "@components": ["src/components"],
       "@core/*": ["./src/core/*"],
       "@screens": ["./src/screens"],
-      "@navigation": ["./src/navigation"]
+      "@navigation": ["./src/navigation"],
+      "@api/*": ["src/api/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
 }

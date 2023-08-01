@@ -9,6 +9,8 @@ interface Styles {
   green: TextStyle;
   innerView: ViewStyle;
   marketText: TextStyle;
+  percentageText: TextStyle;
+  textAllign: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -52,6 +54,12 @@ const styles = StyleSheet.create<Styles>({
   marketText: {
     fontSize: scaleSize(16),
     color: '#333333',
+  },
+  percentageText: {
+    fontSize: scaleSize(20),
+  },
+  textAllign: {
+    alignSelf: 'flex-end',
   },
 });
 export default styles;

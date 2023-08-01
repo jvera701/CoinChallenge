@@ -19,6 +19,7 @@ module.exports = {
           '@core': './src/core',
           '@screens': './src/screens',
           '@navigation': './src/navigation',
+          '@api': './src/api',
         },
       },
     ],
