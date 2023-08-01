@@ -16,6 +16,9 @@ module.exports = {
         ],
         alias: {
           '@components': './src/components',
+          '@core': './src/core',
+          '@screens': './src/screens',
+          '@navigation': './src/navigation',
         },
       },
     ],
