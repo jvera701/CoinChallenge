@@ -6,6 +6,7 @@ const API = axios.create({
   timeoutErrorMessage: 'Timeout error',
 });
 
+// attributes from api
 interface CoinData {
   id: string;
   symbol: string;

@@ -8,7 +8,7 @@ export const scaleSize = (size: number) => {
 };
 
 // taken from https://stackoverflow.com/questions/36734201/how-to-convert-numbers-to-million-in-javascript
-// Note: Intl.NumberFormat for compactDisplay doesn't work in react Native or hermes
+// Note: Intl.NumberFormat for compactDisplay doesn't work in react Native/ hermes
 // see https://github.com/facebook/hermes/blob/main/lib/Platform/Intl/PlatformIntlApple.mm in line 2463
 
 export const approximate = (num: number) => {

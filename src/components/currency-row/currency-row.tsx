@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import styles from './currency-row.styles';
 import {approximate} from '@core/constants';
@@ -44,4 +44,4 @@ const CurrencyRow = (props: CurrencyRowProps) => {
   );
 };
 
-export default CurrencyRow;
+export default memo(CurrencyRow);

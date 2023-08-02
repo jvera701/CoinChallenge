@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
 import {CurrencyRow, HeaderData} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
@@ -16,6 +16,7 @@ const HomeScreen = () => {
     GlobalDataProps | undefined
   >();
   const [start, setStart] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
   const MAX_COINS_PER_PAGE = 20;
 
   const getCoinData = async () => {
@@ -33,7 +34,7 @@ const HomeScreen = () => {
         };
       });
       // concat is faster than spread
-      setCoinData(coinData.concat(newAns));
+      setCoinData(prevCoin => prevCoin.concat(newAns));
     }
   };
 
@@ -64,15 +65,25 @@ const HomeScreen = () => {
     [start],
   );
 
-  const renderItem = (oneItem: itemData) => {
+  const renderItem = React.useCallback((oneItem: itemData) => {
     const {item} = oneItem;
     return <CurrencyRow {...item} />;
-  };
+  }, []);
 
   const fetchMore = () => {
     if (globalData !== undefined && coinData.length < globalData?.coins) {
+      setLoading(true);
       setStart(start + MAX_COINS_PER_PAGE);
+      setLoading(false);
     }
+  };
+
+  const getHeader = () => {
+    return globalData !== undefined ? (
+      <HeaderData {...globalData} />
+    ) : (
+      <ActivityIndicator size="large" style={styles.topLoader} />
+    );
   };
 
   return (
@@ -80,11 +91,10 @@ const HomeScreen = () => {
       <FlatList
         data={coinData}
         renderItem={renderItem}
-        onEndReachedThreshold={0.5}
         onEndReached={fetchMore}
-        ListHeaderComponent={
-          globalData !== undefined ? <HeaderData {...globalData} /> : <></>
-        }
+        refreshing={loading}
+        onEndReachedThreshold={0.2}
+        ListHeaderComponent={getHeader()}
       />
     </SafeAreaView>
   );

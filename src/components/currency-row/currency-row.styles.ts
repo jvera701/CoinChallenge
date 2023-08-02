@@ -24,15 +24,9 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: 'white',
     paddingHorizontal: scaleSize(10),
     paddingVertical: scaleSize(5),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: scaleSize(2),
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: scaleSize(3.84),
-    elevation: 5,
     borderRadius: scaleSize(3),
+    borderColor: 'gray',
+    borderBottomWidth: scaleSize(1),
   },
   innerRow: {
     flexDirection: 'row',
