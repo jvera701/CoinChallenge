@@ -5,12 +5,17 @@ import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import type {CurrencyRowProps, HeaderDataProps} from '@components';
 
+type HomeScreenProps = {
+  navigation: any;
+};
+
 type itemData = {
   index: number;
   item: CurrencyRowProps;
 };
 
-const HomeScreen = () => {
+const HomeScreen = (props: HomeScreenProps) => {
+  const {navigation} = props;
   const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
   const [globalData, setGlobalData] = React.useState<
     HeaderDataProps | undefined
@@ -23,6 +28,9 @@ const HomeScreen = () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
 
     if (!('error' in answer)) {
+      const goToCoin = () => {
+        navigation.navigate('Coin Screen');
+      };
       const newAns = answer.data.map((coin, index) => {
         return {
           name: coin.name,
@@ -30,7 +38,7 @@ const HomeScreen = () => {
           price: parseFloat(coin.price_usd),
           marketCap: parseFloat(coin.market_cap_usd),
           percentageChange: parseFloat(coin.percent_change_24h),
-          onPress: () => {},
+          onPress: goToCoin,
           showTopBorder: index === 0,
         };
       });

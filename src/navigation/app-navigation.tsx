@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen} from '@screens';
+import {HomeScreen, CoinScreen} from '@screens';
 
 const RootStack = createNativeStackNavigator();
 
@@ -23,6 +23,7 @@ const AppNavigation = () => {
           component={HomeScreen}
           options={{headerShown: false}}
         />
+        <RootStack.Screen name="Coin Screen" component={CoinScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

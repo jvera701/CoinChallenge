@@ -10,7 +10,8 @@
       "@core/*": ["./src/core/*"],
       "@screens": ["./src/screens"],
       "@navigation": ["./src/navigation"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@store/*": ["./src/store/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
 }

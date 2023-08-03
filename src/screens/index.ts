@@ -1,2 +1,3 @@
 import HomeScreen from './home/home';
-export {HomeScreen};
+import CoinScreen from './coin/coin';
+export {HomeScreen, CoinScreen};
