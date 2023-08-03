@@ -102,7 +102,7 @@ const getMarketForCoin = async (id: string) => {
         id: id,
       },
     };
-    const response = await API.get<MarketData>('/markets/', config);
+    const response = await API.get<MarketData[]>('/markets/', config);
     return response.data;
   } catch (e) {
     return {

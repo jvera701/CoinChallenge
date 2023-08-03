@@ -4,6 +4,8 @@ import {CurrencyRow, HeaderData} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import type {CurrencyRowProps, HeaderDataProps} from '@components';
+import {useAppDispatch} from '@store/hooks';
+import {changeId} from '@store/initialSlice';
 
 type HomeScreenProps = {
   navigation: any;
@@ -22,15 +24,13 @@ const HomeScreen = (props: HomeScreenProps) => {
   >();
   const [start, setStart] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const dispatch = useAppDispatch();
   const MAX_COINS_PER_PAGE = 20;
 
   const getCoinData = async () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
 
     if (!('error' in answer)) {
-      const goToCoin = () => {
-        navigation.navigate('Coin Screen');
-      };
       const newAns = answer.data.map((coin, index) => {
         return {
           name: coin.name,
@@ -38,7 +38,10 @@ const HomeScreen = (props: HomeScreenProps) => {
           price: parseFloat(coin.price_usd),
           marketCap: parseFloat(coin.market_cap_usd),
           percentageChange: parseFloat(coin.percent_change_24h),
-          onPress: goToCoin,
+          onPress: () => {
+            dispatch(changeId({id: coin.id}));
+            navigation.navigate('Coin Screen');
+          },
           showTopBorder: index === 0,
         };
       });

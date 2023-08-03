@@ -1,15 +1,20 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import initialStore from './initialState';
+
+export type actionType = {
+  id: string;
+};
 
 export const storeSlice = createSlice({
   name: 'store',
   initialState: initialStore,
   reducers: {
-    increment: state => {
-      state.id += '1';
+    changeId: (state, action: PayloadAction<actionType>) => {
+      const {id} = action.payload;
+      state.id = id;
     },
   },
 });
 
-export const {increment} = storeSlice.actions;
+export const {changeId} = storeSlice.actions;
 export default storeSlice.reducer;
