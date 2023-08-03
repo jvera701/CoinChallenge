@@ -1,13 +1,14 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
 const API = axios.create({
-  baseURL: 'https://api.coinlore.net/api',
+  baseURL: Config.API_URL,
   timeout: 5000,
   timeoutErrorMessage: 'Timeout error',
 });
 
 // attributes from api
-interface CoinData {
+type CoinData = {
   id: string;
   symbol: string;
   name: string;
@@ -24,9 +25,9 @@ interface CoinData {
   csupply: string;
   tsupply: string;
   msupply: string;
-}
+};
 
-interface GlobalData {
+type GlobalData = {
   coins_count: number;
   active_markets: number;
   total_mcap: number;
@@ -38,11 +39,33 @@ interface GlobalData {
   avg_change_percent: number;
   volume_ath: number;
   mcap_ath: number;
-}
+};
 
-interface CoinAllData {
+type CoinAllData = {
   data: CoinData[];
-}
+};
+
+type MarketData = {
+  name: string | null;
+  base: string | null;
+  quote: string | null;
+  price: number | null;
+  price_usd: number | null;
+  volume: number | null;
+  volume_usd: number | null;
+  time: number | null;
+};
+
+type SocialData = {
+  reddit: {
+    avg_active_users: number | null;
+    subscribers: number | null;
+  };
+  twitter: {
+    followers_count: number | null;
+    status_count: number | null;
+  };
+};
 
 const getGlobalData = async () => {
   try {
@@ -72,4 +95,36 @@ const getAllCoins = async (start: number, limit: number) => {
   }
 };
 
-export {getGlobalData, getAllCoins};
+const getMarketForCoin = async (id: string) => {
+  try {
+    const config = {
+      params: {
+        id: id,
+      },
+    };
+    const response = await API.get<MarketData>('/markets/', config);
+    return response.data;
+  } catch (e) {
+    return {
+      error: 'Error',
+    };
+  }
+};
+
+const getSocialData = async (id: string) => {
+  try {
+    const config = {
+      params: {
+        id: id,
+      },
+    };
+    const response = await API.get<SocialData>('/social_stats/', config);
+    return response.data;
+  } catch (e) {
+    return {
+      error: 'Error',
+    };
+  }
+};
+
+export {getGlobalData, getAllCoins, getMarketForCoin, getSocialData};
