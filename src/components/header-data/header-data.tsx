@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import styles from './global-data.styles';
+import styles from './header-data.styles';
 import {approximate} from '@core/constants';
 
-export type GlobalDataProps = {
+export type HeaderDataProps = {
   coins: number;
   marketCap: number;
   totalVolume: number;
@@ -12,7 +12,7 @@ export type GlobalDataProps = {
   ethD: string;
 };
 
-const HeaderData = (props: GlobalDataProps) => {
+const HeaderData = (props: HeaderDataProps) => {
   const {coins, marketCap, totalVolume, markets, btcD, ethD} = props;
   return (
     <View>

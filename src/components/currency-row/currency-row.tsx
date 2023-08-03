@@ -7,10 +7,10 @@ export type CurrencyRowProps = {
   name: string;
   rank: number;
   price: number;
-  marketCap: string;
+  marketCap: number;
   percentageChange: number;
   onPress: () => void;
-  showTopBorder?: boolean;
+  showTopBorder: boolean;
 };
 
 const CurrencyRow = (props: CurrencyRowProps) => {
@@ -21,7 +21,7 @@ const CurrencyRow = (props: CurrencyRowProps) => {
     marketCap,
     percentageChange,
     onPress,
-    showTopBorder = false,
+    showTopBorder,
   } = props;
 
   const getPercentageColor = () => {
@@ -31,15 +31,14 @@ const CurrencyRow = (props: CurrencyRowProps) => {
   return (
     <Pressable
       style={[styles.container, showTopBorder && styles.addTopBorder]}
-      onPress={onPress}>
+      onPress={onPress}
+      testID="press-container">
       <View style={styles.innerView}>
         <View style={styles.innerRow}>
           <Text style={styles.defaultText}>{`${rank}. `}</Text>
           <Text style={styles.defaultText}>{name}</Text>
         </View>
-        <Text style={styles.marketText}>{`$${approximate(
-          parseFloat(marketCap),
-        )}`}</Text>
+        <Text style={styles.marketText}>{`$${approximate(marketCap)}`}</Text>
       </View>
       <View style={styles.innerView}>
         <View style={styles.textAlign}>

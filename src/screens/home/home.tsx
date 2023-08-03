@@ -3,7 +3,7 @@ import {FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
 import {CurrencyRow, HeaderData} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
-import type {CurrencyRowProps, GlobalDataProps} from '@components';
+import type {CurrencyRowProps, HeaderDataProps} from '@components';
 
 type itemData = {
   index: number;
@@ -13,7 +13,7 @@ type itemData = {
 const HomeScreen = () => {
   const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
   const [globalData, setGlobalData] = React.useState<
-    GlobalDataProps | undefined
+    HeaderDataProps | undefined
   >();
   const [start, setStart] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
@@ -23,14 +23,15 @@ const HomeScreen = () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
 
     if (!('error' in answer)) {
-      const newAns = answer.data.map(coin => {
+      const newAns = answer.data.map((coin, index) => {
         return {
           name: coin.name,
           rank: coin.rank,
           price: parseFloat(coin.price_usd),
-          marketCap: coin.market_cap_usd,
+          marketCap: parseFloat(coin.market_cap_usd),
           percentageChange: parseFloat(coin.percent_change_24h),
           onPress: () => {},
+          showTopBorder: index === 0,
         };
       });
       // concat is faster than spread
@@ -66,8 +67,8 @@ const HomeScreen = () => {
   );
 
   const renderItem = React.useCallback((oneItem: itemData) => {
-    const {index, item} = oneItem;
-    return <CurrencyRow {...item} showTopBorder={index === 0} />;
+    const {item} = oneItem;
+    return <CurrencyRow {...item} />;
   }, []);
 
   const fetchMore = () => {
