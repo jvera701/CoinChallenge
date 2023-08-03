@@ -3,6 +3,7 @@ import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
 
 interface Styles {
   container: ViewStyle;
+  addTopBorder: ViewStyle;
   innerRow: ViewStyle;
   defaultText: TextStyle;
   red: TextStyle;
@@ -27,6 +28,9 @@ const styles = StyleSheet.create<Styles>({
     borderRadius: scaleSize(3),
     borderColor: 'gray',
     borderBottomWidth: scaleSize(1),
+  },
+  addTopBorder: {
+    borderTopWidth: scaleSize(1),
   },
   innerRow: {
     flexDirection: 'row',

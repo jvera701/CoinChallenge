@@ -66,8 +66,8 @@ const HomeScreen = () => {
   );
 
   const renderItem = React.useCallback((oneItem: itemData) => {
-    const {item} = oneItem;
-    return <CurrencyRow {...item} />;
+    const {index, item} = oneItem;
+    return <CurrencyRow {...item} showTopBorder={index === 0} />;
   }, []);
 
   const fetchMore = () => {

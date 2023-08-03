@@ -10,17 +10,28 @@ export type CurrencyRowProps = {
   marketCap: string;
   percentageChange: number;
   onPress: () => void;
+  showTopBorder?: boolean;
 };
 
 const CurrencyRow = (props: CurrencyRowProps) => {
-  const {name, rank, price, marketCap, percentageChange, onPress} = props;
+  const {
+    name,
+    rank,
+    price,
+    marketCap,
+    percentageChange,
+    onPress,
+    showTopBorder = false,
+  } = props;
 
   const getPercentageColor = () => {
     return percentageChange < 0 ? styles.red : styles.green;
   };
 
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable
+      style={[styles.container, showTopBorder && styles.addTopBorder]}
+      onPress={onPress}>
       <View style={styles.innerView}>
         <View style={styles.innerRow}>
           <Text style={styles.defaultText}>{`${rank}. `}</Text>
