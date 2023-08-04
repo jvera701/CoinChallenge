@@ -19,6 +19,6 @@ export const approximate = (num: number) => {
     var x = Math.abs(Number(num)) / Number('1.0e+' + (unit - r)).toFixed(2);
     return x.toFixed(2) + ' ' + units[Math.floor(unit / 3) - 2];
   } else {
-    return num;
+    return Math.round(num);
   }
 };
