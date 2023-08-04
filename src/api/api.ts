@@ -61,11 +61,11 @@ type MarketData = {
 };
 
 type SocialData = {
-  reddit: {
+  reddit?: {
     avg_active_users: number | null;
     subscribers: number | null;
   };
-  twitter: {
+  twitter?: {
     followers_count: number | null;
     status_count: number | null;
   };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
-import HeaderData from '../header-data';
+import HeaderData from '../data-header';
 
 describe('Header Data', () => {
   it('Renders correctly', () => {

@@ -1,8 +1,8 @@
 import CurrencyRow from './currency-row/currency-row';
-import HeaderData from './header-data/header-data';
+import HeaderData from './data-header/data-header';
 
 import type {CurrencyRowProps} from './currency-row/currency-row';
-import type {HeaderDataProps} from './header-data/header-data';
+import type {DataHeaderProps} from './data-header/data-header';
 
 export {CurrencyRow, HeaderData};
-export type {CurrencyRowProps, HeaderDataProps};
+export type {CurrencyRowProps, DataHeaderProps};

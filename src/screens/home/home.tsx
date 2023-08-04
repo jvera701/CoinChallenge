@@ -6,7 +6,7 @@ import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
 import {updateStore} from '@store/initialSlice';
 
-import type {CurrencyRowProps, HeaderDataProps} from '@components';
+import type {CurrencyRowProps, DataHeaderProps} from '@components';
 
 type HomeScreenProps = {
   navigation: any;
@@ -21,7 +21,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
   const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
   const [globalData, setGlobalData] = React.useState<
-    HeaderDataProps | undefined
+    DataHeaderProps | undefined
   >();
   const [start, setStart] = React.useState(0);
   const [loading, setLoading] = React.useState(false);

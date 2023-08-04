@@ -17,7 +17,7 @@ enum options {
 
 type Special = number | options;
 
-type SocialData = {
+type SocialType = {
   reddit: {
     users: Special;
     subscribers: Special;
@@ -28,11 +28,13 @@ type SocialData = {
   };
 };
 
+type MarketType = {};
+
 const CoinScreen = (props: CoinScreenProps) => {
   const {route} = props;
   const {id} = route.params;
   const lol = useSelector((state: RootState) => state.info);
-  const [socialData, setSocialData] = React.useState<SocialData>({
+  const [socialData, setSocialData] = React.useState<SocialType>({
     reddit: {
       users: options.Empty,
       subscribers: options.Empty,
@@ -42,22 +44,26 @@ const CoinScreen = (props: CoinScreenProps) => {
       statusCount: options.Empty,
     },
   });
+  const [marketData, setMarketData] = React.useState([]);
 
   const fetchSocials = async () => {
     const result = await getSocialData(id);
+
     if (!('error' in result)) {
       const {reddit, twitter} = result;
       const answer = {
         reddit: {
-          users: reddit.avg_active_users || options.NotFound,
-          subscribers: reddit.subscribers || options.NotFound,
+          users: reddit?.avg_active_users || options.NotFound,
+          subscribers: reddit?.subscribers || options.NotFound,
         },
         twitter: {
-          followers: twitter.followers_count || options.NotFound,
-          statusCount: twitter.status_count || options.NotFound,
+          followers: twitter?.followers_count || options.NotFound,
+          statusCount: twitter?.status_count || options.NotFound,
         },
       };
       setSocialData(answer);
+    } else {
+      console.error(result);
     }
   };
 

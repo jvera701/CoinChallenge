@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import styles from './header-data.styles';
+import styles from './data-header.styles';
 import {approximate} from '@core/constants';
 
-export type HeaderDataProps = {
+export type DataHeaderProps = {
   coins: number;
   marketCap: number;
   totalVolume: number;
@@ -12,7 +12,7 @@ export type HeaderDataProps = {
   ethD: string;
 };
 
-const HeaderData = (props: HeaderDataProps) => {
+const DataHeader = (props: DataHeaderProps) => {
   const {coins, marketCap, totalVolume, markets, btcD, ethD} = props;
   return (
     <View>
@@ -42,4 +42,4 @@ const HeaderData = (props: HeaderDataProps) => {
     </View>
   );
 };
-export default HeaderData;
+export default DataHeader;
