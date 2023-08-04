@@ -6,7 +6,7 @@ import {approximate} from '@core/constants';
 export type CurrencyRowProps = {
   name: string;
   rank: number;
-  price: number;
+  price: string;
   marketCap: number;
   percentageChange: number;
   onPress: () => void;

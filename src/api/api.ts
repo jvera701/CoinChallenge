@@ -1,23 +1,27 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 
+// All these types are based on the API
 const API = axios.create({
   baseURL: Config.API_URL,
   timeout: 5000,
   timeoutErrorMessage: 'Timeout error',
 });
 
-// attributes from api
-type CoinData = {
-  id: string;
-  symbol: string;
-  name: string;
-  nameid: string;
-  rank: number;
+// specific data to show in the coin screen
+export type DetailCoinData = {
   price_usd: string;
   percent_change_7d: string;
   percent_change_24h: string;
   percent_change_1h: string;
+};
+
+interface CoinData extends DetailCoinData {
+  name: string;
+  id: string;
+  symbol: string;
+  nameid: string;
+  rank: number;
   price_btc: string;
   market_cap_usd: string;
   volume24: number;
@@ -25,7 +29,7 @@ type CoinData = {
   csupply: string;
   tsupply: string;
   msupply: string;
-};
+}
 
 type GlobalData = {
   coins_count: number;
@@ -118,7 +122,7 @@ const getSocialData = async (id: string) => {
         id: id,
       },
     };
-    const response = await API.get<SocialData>('/social_stats/', config);
+    const response = await API.get<SocialData>('/coin/social_stats/', config);
     return response.data;
   } catch (e) {
     return {

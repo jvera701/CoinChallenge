@@ -23,7 +23,13 @@ const AppNavigation = () => {
           component={HomeScreen}
           options={{headerShown: false}}
         />
-        <RootStack.Screen name="Coin Screen" component={CoinScreen} />
+        <RootStack.Screen
+          name="Coin Screen"
+          component={CoinScreen}
+          options={({navigation, route}) => ({
+            title: route.params.name,
+          })}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

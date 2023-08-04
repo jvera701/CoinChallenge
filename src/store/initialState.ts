@@ -1,9 +1,10 @@
-export type ItemType = {
-  id: string;
-};
+import {DetailCoinData} from '@api/api';
 
-const initialStore: ItemType = {
-  id: '1',
+const initialStore: DetailCoinData = {
+  price_usd: '',
+  percent_change_7d: '',
+  percent_change_24h: '',
+  percent_change_1h: '',
 };
 
 export default initialStore;

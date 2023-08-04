@@ -3,9 +3,10 @@ import {FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
 import {CurrencyRow, HeaderData} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
-import type {CurrencyRowProps, HeaderDataProps} from '@components';
 import {useAppDispatch} from '@store/hooks';
-import {changeId} from '@store/initialSlice';
+import {updateStore} from '@store/initialSlice';
+
+import type {CurrencyRowProps, HeaderDataProps} from '@components';
 
 type HomeScreenProps = {
   navigation: any;
@@ -32,16 +33,24 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     if (!('error' in answer)) {
       const newAns = answer.data.map((coin, index) => {
+        const onPressFunc = () => {
+          dispatch(
+            updateStore({
+              price_usd: coin.price_usd,
+              percent_change_7d: coin.percent_change_7d,
+              percent_change_24h: coin.percent_change_24h,
+              percent_change_1h: coin.percent_change_1h,
+            }),
+          );
+          navigation.navigate('Coin Screen', {name: coin.name, id: coin.id});
+        };
         return {
           name: coin.name,
           rank: coin.rank,
-          price: parseFloat(coin.price_usd),
+          price: coin.price_usd,
           marketCap: parseFloat(coin.market_cap_usd),
           percentageChange: parseFloat(coin.percent_change_24h),
-          onPress: () => {
-            dispatch(changeId({id: coin.id}));
-            navigation.navigate('Coin Screen');
-          },
+          onPress: onPressFunc,
           showTopBorder: index === 0,
         };
       });

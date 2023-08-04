@@ -11,7 +11,7 @@ describe('Currency row', () => {
       <CurrencyRow
         name="name"
         rank={1}
-        price={2}
+        price="2"
         marketCap={3}
         percentageChange={10}
         onPress={mockFN}
@@ -38,7 +38,7 @@ describe('Currency row', () => {
       <CurrencyRow
         name="name"
         rank={1}
-        price={2}
+        price="2"
         marketCap={3}
         percentageChange={-10}
         onPress={() => {}}
