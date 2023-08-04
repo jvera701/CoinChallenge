@@ -1,10 +1,11 @@
 import React from 'react';
-import {FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
-import {CurrencyRow, HeaderData} from '@components';
+import {FlatList, SafeAreaView, ActivityIndicator, View} from 'react-native';
+import {CurrencyRow, HeaderData, SearchInput} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
 import {updateStore} from '@store/initialSlice';
+import Fuse from 'fuse.js';
 
 import type {CurrencyRowProps, DataHeaderProps} from '@components';
 
@@ -20,13 +21,18 @@ type itemData = {
 const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
   const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
+  const [startingData, setStartingData] = React.useState<CurrencyRowProps[]>(
+    [],
+  );
+  const [firstRender, setFirstRender] = React.useState(true);
   const [globalData, setGlobalData] = React.useState<
     DataHeaderProps | undefined
   >();
   const [start, setStart] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const [search, setSearch] = React.useState('');
   const dispatch = useAppDispatch();
-  const MAX_COINS_PER_PAGE = 20;
+  const MAX_COINS_PER_PAGE = 50;
 
   const getCoinData = async () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
@@ -56,6 +62,11 @@ const HomeScreen = (props: HomeScreenProps) => {
       });
       // concat is faster than spread
       setCoinData(prevCoin => prevCoin.concat(newAns));
+      if (firstRender) {
+        console.log(newAns);
+        setStartingData(newAns);
+        setFirstRender(false);
+      }
     }
   };
 
@@ -86,22 +97,63 @@ const HomeScreen = (props: HomeScreenProps) => {
     [start],
   );
 
+  React.useEffect(
+    () => {
+      fuzzySearch();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [search],
+  );
+
   const renderItem = React.useCallback((oneItem: itemData) => {
     const {item} = oneItem;
     return <CurrencyRow {...item} />;
   }, []);
 
   const fetchMore = () => {
-    if (globalData !== undefined && coinData.length < globalData?.coins) {
+    if (
+      globalData !== undefined &&
+      coinData.length < globalData?.coins &&
+      search === ''
+    ) {
       setLoading(true);
       setStart(start + MAX_COINS_PER_PAGE);
       setLoading(false);
     }
   };
 
+  // Doing fuzzy search with Fuse library
+  const fuzzySearch = () => {
+    if (search === '' && !firstRender) {
+      setCoinData(startingData);
+      return;
+    }
+    const fuse = new Fuse(coinData, {
+      keys: ['name'],
+    });
+    const result = fuse.search(search);
+    const finalResult: CurrencyRowProps[] = [];
+    if (result.length) {
+      setCoinData(result.map(item => item.item));
+    } else {
+      setCoinData(finalResult);
+    }
+  };
+
   const getHeader = () => {
     return globalData !== undefined ? (
-      <HeaderData {...globalData} />
+      <View>
+        <HeaderData {...globalData} />
+        <SearchInput
+          placeholder="Search Here"
+          value={search}
+          onChangeText={newText => setSearch(newText)}
+          defaultValue=""
+          onClear={() => {
+            setSearch('');
+          }}
+        />
+      </View>
     ) : (
       <ActivityIndicator size="large" style={styles.topLoader} />
     );

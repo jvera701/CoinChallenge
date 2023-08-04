@@ -20,7 +20,7 @@ const CoinHeader = (props: CoinHeaderProps) => {
       <Text style={styles.boldSubtitle}>{'% change'}</Text>
       <View style={styles.rowContainer}>
         <View>
-          <Text>{'7d'}</Text>
+          <Text>{'1h'}</Text>
           <Text>{change1h}</Text>
         </View>
         <View>
