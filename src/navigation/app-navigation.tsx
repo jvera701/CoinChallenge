@@ -26,7 +26,7 @@ const AppNavigation = () => {
         <RootStack.Screen
           name="Coin Screen"
           component={CoinScreen}
-          options={({navigation, route}) => ({
+          options={({_, route}) => ({
             title: route.params.name,
           })}
         />

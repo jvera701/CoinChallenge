@@ -16,6 +16,7 @@ const styles = StyleSheet.create<Styles>({
     paddingVertical: scaleSize(5),
     paddingHorizontal: scaleSize(10),
     justifyContent: 'space-around',
+    alignItems: 'center',
     borderColor: 'black',
     borderWidth: scaleSize(1),
     borderRadius: scaleSize(4),

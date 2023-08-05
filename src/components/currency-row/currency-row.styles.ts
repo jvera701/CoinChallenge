@@ -1,4 +1,4 @@
-import {scaleSize} from '@core/constants';
+import {scaleSize, CURRENCY_ROW_HEIGHT} from '@core/constants';
 import {ViewStyle, StyleSheet, TextStyle, ImageStyle} from 'react-native';
 
 interface Styles {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    maxHeight: scaleSize(65),
+    height: CURRENCY_ROW_HEIGHT,
     backgroundColor: 'white',
     paddingHorizontal: scaleSize(10),
     paddingVertical: scaleSize(5),

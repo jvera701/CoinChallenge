@@ -1,11 +1,17 @@
 import React from 'react';
-import {FlatList, SafeAreaView, ActivityIndicator, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  ActivityIndicator,
+  View,
+  ListRenderItem,
+} from 'react-native';
 import {CurrencyRow, HeaderData, SearchInput} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
 import {updateStore} from '@store/initialSlice';
-import {getUrl} from '@core/constants';
+import {getUrl, CURRENCY_ROW_HEIGHT} from '@core/constants';
 import Fuse from 'fuse.js';
 
 import type {CurrencyRowProps, DataHeaderProps} from '@components';
@@ -59,6 +65,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: onPressFunc,
           showTopBorder: index + coinData.length === 0,
           imageUrl: getUrl(coin.symbol.toLowerCase()),
+          key: index + coinData.length,
         };
       });
       // concat is faster than spread
@@ -105,10 +112,13 @@ const HomeScreen = (props: HomeScreenProps) => {
     [search],
   );
 
-  const renderItem = React.useCallback((oneItem: itemData) => {
-    const {item} = oneItem;
-    return <CurrencyRow {...item} />;
-  }, []);
+  const renderItem: ListRenderItem<CurrencyRowProps> = React.useCallback(
+    (oneItem: itemData) => {
+      const {item, index} = oneItem;
+      return <CurrencyRow {...item} key={index} />;
+    },
+    [],
+  );
 
   const fetchMore = () => {
     if (
@@ -160,6 +170,17 @@ const HomeScreen = (props: HomeScreenProps) => {
     );
   };
 
+  const getItemLayout = (
+    data: ArrayLike<CurrencyRowProps> | null | undefined,
+    index: number,
+  ) => {
+    return {
+      length: CURRENCY_ROW_HEIGHT,
+      offset: CURRENCY_ROW_HEIGHT * index,
+      index,
+    };
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -169,6 +190,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         refreshing={loading}
         onEndReachedThreshold={0.2}
         ListHeaderComponent={getHeader()}
+        getItemLayout={getItemLayout}
       />
     </SafeAreaView>
   );

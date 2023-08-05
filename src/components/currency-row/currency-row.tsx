@@ -11,6 +11,7 @@ export type CurrencyRowProps = {
   onPress: () => void;
   showTopBorder: boolean;
   imageUrl: string;
+  key?: number;
 };
 
 const CurrencyRow = (props: CurrencyRowProps) => {
@@ -22,12 +23,14 @@ const CurrencyRow = (props: CurrencyRowProps) => {
     onPress,
     showTopBorder,
     imageUrl,
+    key = 1,
   } = props;
 
   return (
     <Pressable
       style={[styles.container, showTopBorder && styles.addTopBorder]}
       onPress={onPress}
+      key={key}
       testID="press-container">
       <Image
         source={{
