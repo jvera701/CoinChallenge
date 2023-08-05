@@ -16,17 +16,17 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'space-around',
   },
   boldedText: {
-    fontSize: scaleSize(14),
+    fontSize: scaleSize(18),
     fontWeight: 'bold',
     color: 'black',
   },
   regularText: {
-    fontSize: scaleSize(14),
+    fontSize: scaleSize(16),
     fontWeight: 'normal',
     color: 'black',
   },
   headerTitle: {
-    fontSize: scaleSize(20),
+    fontSize: scaleSize(22),
     fontWeight: 'bold',
     color: 'black',
     marginVertical: scaleSize(10),

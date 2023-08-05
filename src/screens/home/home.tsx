@@ -14,13 +14,13 @@ import {updateStore} from '@store/initialSlice';
 import {getUrl, CURRENCY_ROW_HEIGHT} from '@core/constants';
 import Fuse from 'fuse.js';
 
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {CurrencyRowProps, DataHeaderProps} from '@components';
+import type {RootStackParamList} from '@navigation';
 
-type HomeScreenProps = {
-  navigation: any;
-};
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-type itemData = {
+type ItemData = {
   index: number;
   item: CurrencyRowProps;
 };
@@ -113,9 +113,9 @@ const HomeScreen = (props: HomeScreenProps) => {
   );
 
   const renderItem: ListRenderItem<CurrencyRowProps> = React.useCallback(
-    (oneItem: itemData) => {
-      const {item, index} = oneItem;
-      return <CurrencyRow {...item} key={index} />;
+    (oneItem: ItemData) => {
+      const {item} = oneItem;
+      return <CurrencyRow {...item} />;
     },
     [],
   );
@@ -180,6 +180,8 @@ const HomeScreen = (props: HomeScreenProps) => {
       index,
     };
   };
+  const keyExtractor = (item: CurrencyRowProps, index: number) =>
+    `post-${index}`;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -191,6 +193,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         onEndReachedThreshold={0.2}
         ListHeaderComponent={getHeader()}
         getItemLayout={getItemLayout}
+        keyExtractor={keyExtractor}
       />
     </SafeAreaView>
   );

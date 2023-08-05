@@ -3,7 +3,15 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen, CoinScreen} from '@screens';
 
-const RootStack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  'Coin Screen': {
+    name: string;
+    id: string;
+  };
+};
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const navTheme = {
   ...DefaultTheme,
@@ -12,6 +20,7 @@ const navTheme = {
     background: 'transparent',
   },
 };
+
 const AppNavigation = () => {
   return (
     <NavigationContainer theme={navTheme}>
@@ -26,7 +35,7 @@ const AppNavigation = () => {
         <RootStack.Screen
           name="Coin Screen"
           component={CoinScreen}
-          options={({_, route}) => ({
+          options={({route}) => ({
             title: route.params.name,
           })}
         />

@@ -8,11 +8,13 @@ import {getUrl} from '@core/constants';
 
 import type {SocialType} from '@components';
 import type {RootState} from '@store/store';
+import type {RootStackParamList} from '@navigation';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-type CoinScreenProps = {
-  navigation: any;
-  route: any;
-};
+type CoinScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Coin Screen'
+>;
 
 const CoinScreen = (props: CoinScreenProps) => {
   const {route} = props;
