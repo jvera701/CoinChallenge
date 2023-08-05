@@ -9,11 +9,13 @@ interface SearchInputProps extends TextInputProps {
 const SearchInput = (props: SearchInputProps) => {
   const {onClear, ...rest} = props;
   return (
-    <View style={styles.container}>
-      <TextInput {...rest} style={styles.textInput} />
-      <Pressable onPress={onClear}>
-        <Text>{'X'}</Text>
-      </Pressable>
+    <View style={styles.mainContainer}>
+      <View style={styles.container}>
+        <TextInput {...rest} style={styles.textInput} />
+        <Pressable onPress={onClear}>
+          <Text>{'X'}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };

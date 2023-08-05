@@ -36,7 +36,6 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const getCoinData = async () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
-
     if (!('error' in answer)) {
       const newAns = answer.data.map((coin, index) => {
         const onPressFunc = () => {
@@ -63,7 +62,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       // concat is faster than spread
       setCoinData(prevCoin => prevCoin.concat(newAns));
       if (firstRender) {
-        console.log(newAns);
         setStartingData(newAns);
         setFirstRender(false);
       }
@@ -113,6 +111,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const fetchMore = () => {
     if (
       globalData !== undefined &&
+      coinData.length > 0 &&
       coinData.length < globalData?.coins &&
       search === ''
     ) {
