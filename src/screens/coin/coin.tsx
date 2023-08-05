@@ -5,6 +5,7 @@ import {ActivityIndicator, SafeAreaView} from 'react-native';
 import styles from './coin.styles';
 import {getSocialData} from '@api/api';
 import {CoinHeader, StringOptions, SocialFooter} from '@components';
+import {getUrl} from '@core/constants';
 import type {SocialType} from '@components';
 
 type CoinScreenProps = {
@@ -15,7 +16,7 @@ type CoinScreenProps = {
 const CoinScreen = (props: CoinScreenProps) => {
   const {route} = props;
   const {id} = route.params;
-  const info = useSelector((state: RootState) => state.info);
+  const storedData = useSelector((state: RootState) => state.info);
   const [socialData, setSocialData] = React.useState<SocialType>({
     reddit: {
       users: StringOptions.Empty,
@@ -66,10 +67,11 @@ const CoinScreen = (props: CoinScreenProps) => {
       ) : (
         <>
           <CoinHeader
-            priceUsd={info.price_usd}
-            change1h={parseFloat(info.percent_change_1h)}
-            change24h={parseFloat(info.percent_change_24h)}
-            change7d={parseFloat(info.percent_change_7d)}
+            imageUrl={getUrl(storedData.symbol)}
+            priceUsd={storedData.price_usd}
+            change1h={storedData.percent_change_1h}
+            change24h={storedData.percent_change_24h}
+            change7d={storedData.percent_change_7d}
           />
           <SocialFooter
             redditSubs={reddit.subscribers}

@@ -5,6 +5,7 @@ import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
 import {updateStore} from '@store/initialSlice';
+import {getUrl} from '@core/constants';
 import Fuse from 'fuse.js';
 
 import type {CurrencyRowProps, DataHeaderProps} from '@components';
@@ -45,18 +46,19 @@ const HomeScreen = (props: HomeScreenProps) => {
               percent_change_7d: coin.percent_change_7d,
               percent_change_24h: coin.percent_change_24h,
               percent_change_1h: coin.percent_change_1h,
+              symbol: coin.symbol.toLowerCase(),
             }),
           );
           navigation.navigate('Coin Screen', {name: coin.name, id: coin.id});
         };
         return {
           name: coin.name,
-          rank: coin.rank,
           price: coin.price_usd,
           marketCap: parseFloat(coin.market_cap_usd),
-          percentageChange: parseFloat(coin.percent_change_24h),
+          percentageChange: coin.percent_change_24h,
           onPress: onPressFunc,
-          showTopBorder: index === 0,
+          showTopBorder: index + coinData.length === 0,
+          imageUrl: getUrl(coin.symbol.toLowerCase()),
         };
       });
       // concat is faster than spread

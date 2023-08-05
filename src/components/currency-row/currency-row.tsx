@@ -1,54 +1,51 @@
 import React, {memo} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Image} from 'react-native';
 import styles from './currency-row.styles';
-import {approximate} from '@core/constants';
+import {approximate, getTextColor} from '@core/constants';
 
 export type CurrencyRowProps = {
   name: string;
-  rank: number;
   price: string;
   marketCap: number;
-  percentageChange: number;
+  percentageChange: string;
   onPress: () => void;
   showTopBorder: boolean;
+  imageUrl: string;
 };
 
 const CurrencyRow = (props: CurrencyRowProps) => {
   const {
     name,
-    rank,
     price,
     marketCap,
     percentageChange,
     onPress,
     showTopBorder,
+    imageUrl,
   } = props;
-
-  const getPercentageColor = () => {
-    return percentageChange < 0 ? styles.red : styles.green;
-  };
 
   return (
     <Pressable
       style={[styles.container, showTopBorder && styles.addTopBorder]}
       onPress={onPress}
       testID="press-container">
-      <View style={styles.innerView}>
-        <View style={styles.innerRow}>
-          <Text style={styles.defaultText}>{`${rank}. `}</Text>
-          <Text style={styles.defaultText}>{name}</Text>
-        </View>
+      <Image
+        source={{
+          uri: `${imageUrl}`,
+        }}
+        style={styles.image}
+      />
+      <View style={[styles.innerView, styles.middleView]}>
+        <Text style={styles.defaultText} numberOfLines={1} ellipsizeMode="tail">
+          {name}
+        </Text>
         <Text style={styles.marketText}>{`$${approximate(marketCap)}`}</Text>
       </View>
       <View style={styles.innerView}>
-        <View style={styles.textAlign}>
-          <Text style={styles.defaultText}>{`$${price}`}</Text>
-        </View>
-        <View style={styles.textAlign}>
-          <Text style={[styles.percentageText, getPercentageColor()]}>
-            {`${percentageChange}%`}
-          </Text>
-        </View>
+        <Text style={styles.defaultText}>{`$${price}`}</Text>
+        <Text style={[styles.percentageText, getTextColor(percentageChange)]}>
+          {`${percentageChange}%`}
+        </Text>
       </View>
     </Pressable>
   );

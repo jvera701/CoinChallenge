@@ -22,3 +22,19 @@ export const approximate = (num: number) => {
     return Math.round(num);
   }
 };
+
+export const getTextColor = (number: string) => {
+  if (number.startsWith('-')) {
+    return {
+      color: 'red',
+    };
+  } else {
+    return {
+      color: 'green',
+    };
+  }
+};
+
+export const getUrl = (symbol: string) => {
+  return `https://assets.coincap.io/assets/icons/${symbol}@2x.png`;
+};

@@ -1,35 +1,48 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import styles from './coin-header.styles';
+import {getTextColor} from '@core/constants';
 
 type CoinHeaderProps = {
+  imageUrl: string;
   priceUsd: string;
-  change7d: number;
-  change24h: number;
-  change1h: number;
+  change7d: string;
+  change24h: string;
+  change1h: string;
 };
 
 const CoinHeader = (props: CoinHeaderProps) => {
-  const {priceUsd, change7d, change24h, change1h} = props;
+  const {priceUsd, change7d, change24h, change1h, imageUrl} = props;
 
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
+        <Image
+          source={{
+            uri: `${imageUrl}`,
+          }}
+          style={styles.image}
+        />
         <Text style={styles.price}>{`$${priceUsd}`}</Text>
       </View>
-      <Text style={styles.boldSubtitle}>{'% change'}</Text>
       <View style={styles.rowContainer}>
         <View>
-          <Text>{'1h'}</Text>
-          <Text>{change1h}</Text>
+          <Text style={styles.boldSubtitle}>{'1h'}</Text>
+          <Text style={[styles.regularNumbers, getTextColor(change1h)]}>
+            {`${change1h}%`}
+          </Text>
         </View>
         <View>
-          <Text>{'24h'}</Text>
-          <Text>{change24h}</Text>
+          <Text style={styles.boldSubtitle}>{'24h'}</Text>
+          <Text style={[styles.regularNumbers, getTextColor(change24h)]}>
+            {`${change24h}%`}
+          </Text>
         </View>
         <View>
-          <Text>{'7d'}</Text>
-          <Text>{change7d}</Text>
+          <Text style={styles.boldSubtitle}>{'7d'}</Text>
+          <Text style={[styles.regularNumbers, getTextColor(change7d)]}>
+            {`${change7d}%`}
+          </Text>
         </View>
       </View>
     </View>

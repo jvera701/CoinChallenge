@@ -1,24 +1,24 @@
 import {scaleSize} from '@core/constants';
-import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
+import {ViewStyle, StyleSheet, TextStyle, ImageStyle} from 'react-native';
 
 interface Styles {
   container: ViewStyle;
   addTopBorder: ViewStyle;
   innerRow: ViewStyle;
   defaultText: TextStyle;
-  red: TextStyle;
-  green: TextStyle;
   innerView: ViewStyle;
   marketText: TextStyle;
   percentageText: TextStyle;
   textAlign: TextStyle;
+  image: ImageStyle;
+  middleView: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
     maxHeight: scaleSize(65),
@@ -39,12 +39,6 @@ const styles = StyleSheet.create<Styles>({
     fontSize: scaleSize(20),
     color: 'black',
   },
-  red: {
-    color: 'red',
-  },
-  green: {
-    color: 'green',
-  },
   innerView: {
     height: '100%',
     justifyContent: 'space-between',
@@ -58,6 +52,15 @@ const styles = StyleSheet.create<Styles>({
   },
   textAlign: {
     alignSelf: 'flex-end',
+  },
+  image: {
+    width: scaleSize(30),
+    height: scaleSize(30),
+    resizeMode: 'contain',
+  },
+  middleView: {
+    paddingLeft: scaleSize(10),
+    width: scaleSize(220),
   },
 });
 export default styles;
