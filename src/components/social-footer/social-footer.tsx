@@ -43,21 +43,25 @@ const SocialFooter = (props: SocialFooterProps) => {
       <View style={styles.rowContainer}>
         <View>
           <Text style={styles.boldSubtitle}>{'Reddit subs'}</Text>
-          <Text>{nearestInteger(redditSubs)}</Text>
+          <Text style={styles.regularText}>{nearestInteger(redditSubs)}</Text>
         </View>
         <View>
           <Text style={styles.boldSubtitle}>{'Reddit users'}</Text>
-          <Text>{nearestInteger(redditUsers)}</Text>
+          <Text style={styles.regularText}>{nearestInteger(redditUsers)}</Text>
         </View>
       </View>
       <View style={styles.rowContainer}>
         <View>
           <Text style={styles.boldSubtitle}>{'Twitter followers'}</Text>
-          <Text>{nearestInteger(twitterFollow)}</Text>
+          <Text style={styles.regularText}>
+            {nearestInteger(twitterFollow)}
+          </Text>
         </View>
         <View>
           <Text style={styles.boldSubtitle}>{'Twitter status'}</Text>
-          <Text>{nearestInteger(twitterStatus)}</Text>
+          <Text style={styles.regularText}>
+            {nearestInteger(twitterStatus)}
+          </Text>
         </View>
       </View>
     </View>

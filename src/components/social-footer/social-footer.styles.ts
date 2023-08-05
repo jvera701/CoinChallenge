@@ -5,6 +5,7 @@ interface Styles {
   container: ViewStyle;
   rowContainer: ViewStyle;
   boldSubtitle: TextStyle;
+  regularText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -19,8 +20,13 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'space-between',
   },
   boldSubtitle: {
-    fontSize: scaleSize(16),
+    fontSize: scaleSize(20),
     fontWeight: 'bold',
+    color: 'black',
+  },
+  regularText: {
+    fontSize: scaleSize(18),
+    fontWeight: 'normal',
     color: 'black',
   },
 });

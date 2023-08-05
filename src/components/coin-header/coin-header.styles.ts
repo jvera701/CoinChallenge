@@ -24,12 +24,12 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'space-between',
   },
   boldSubtitle: {
-    fontSize: scaleSize(16),
+    fontSize: scaleSize(20),
     fontWeight: 'bold',
     color: 'black',
   },
   regularNumbers: {
-    fontSize: scaleSize(16),
+    fontSize: scaleSize(20),
     fontWeight: 'normal',
     color: 'black',
   },

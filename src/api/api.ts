@@ -8,18 +8,18 @@ const API = axios.create({
   timeoutErrorMessage: 'Timeout error',
 });
 
-// specific data to show in the coin screen
+// Specific coin data to show in the coin screen and save in store
 export type DetailCoinData = {
   price_usd: string;
   percent_change_7d: string;
   percent_change_24h: string;
   percent_change_1h: string;
+  symbol: string;
 };
 
 interface CoinData extends DetailCoinData {
   name: string;
   id: string;
-  symbol: string;
   nameid: string;
   rank: number;
   price_btc: string;
@@ -47,17 +47,6 @@ type GlobalData = {
 
 type CoinAllData = {
   data: CoinData[];
-};
-
-type MarketData = {
-  name: string | null;
-  base: string | null;
-  quote: string | null;
-  price: number | null;
-  price_usd: number | null;
-  volume: number | null;
-  volume_usd: number | null;
-  time: number | null;
 };
 
 type SocialData = {
@@ -99,22 +88,6 @@ const getAllCoins = async (start: number, limit: number) => {
   }
 };
 
-const getMarketForCoin = async (id: string) => {
-  try {
-    const config = {
-      params: {
-        id: id,
-      },
-    };
-    const response = await API.get<MarketData[]>('/markets/', config);
-    return response.data;
-  } catch (e) {
-    return {
-      error: 'Error',
-    };
-  }
-};
-
 const getSocialData = async (id: string) => {
   try {
     const config = {
@@ -122,7 +95,10 @@ const getSocialData = async (id: string) => {
         id: id,
       },
     };
-    const response = await API.get<SocialData>('/coin/social_stats/', config);
+    const response = await API.get<SocialData | ''>(
+      '/coin/social_stats/',
+      config,
+    );
     return response.data;
   } catch (e) {
     return {
@@ -131,4 +107,4 @@ const getSocialData = async (id: string) => {
   }
 };
 
-export {getGlobalData, getAllCoins, getMarketForCoin, getSocialData};
+export {getGlobalData, getAllCoins, getSocialData};

@@ -1,12 +1,13 @@
 import React from 'react';
-import type {RootState} from '@store/store';
 import {useSelector} from 'react-redux';
 import {ActivityIndicator, SafeAreaView} from 'react-native';
 import styles from './coin.styles';
 import {getSocialData} from '@api/api';
 import {CoinHeader, StringOptions, SocialFooter} from '@components';
 import {getUrl} from '@core/constants';
+
 import type {SocialType} from '@components';
+import type {RootState} from '@store/store';
 
 type CoinScreenProps = {
   navigation: any;
@@ -34,7 +35,19 @@ const CoinScreen = (props: CoinScreenProps) => {
     setLoading(true);
     const result = await getSocialData(id);
 
-    if (!('error' in result)) {
+    if (result === '') {
+      const answer = {
+        reddit: {
+          users: StringOptions.NotFound,
+          subscribers: StringOptions.NotFound,
+        },
+        twitter: {
+          followers: StringOptions.NotFound,
+          statusCount: StringOptions.NotFound,
+        },
+      };
+      setSocialData(answer);
+    } else if (!('error' in result)) {
       const {reddit, twitter} = result;
       const answer = {
         reddit: {
@@ -65,7 +78,7 @@ const CoinScreen = (props: CoinScreenProps) => {
       {loading ? (
         <ActivityIndicator size="large" style={styles.topLoader} />
       ) : (
-        <>
+        <React.Fragment>
           <CoinHeader
             imageUrl={getUrl(storedData.symbol)}
             priceUsd={storedData.price_usd}
@@ -79,7 +92,7 @@ const CoinScreen = (props: CoinScreenProps) => {
             twitterFollow={twitter.followers}
             twitterStatus={twitter.statusCount}
           />
-        </>
+        </React.Fragment>
       )}
     </SafeAreaView>
   );
