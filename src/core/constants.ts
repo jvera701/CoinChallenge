@@ -16,13 +16,13 @@ export const CURRENCY_ROW_HEIGHT = scaleSize(65);
 export function approximate(num: number) {
   if (num > 1000000) {
     const units = ['M', 'B', 'T', 'Q'];
-    const unit = Math.floor((num / 1.0e1).toFixed(0).toString().length);
+    const unit = Math.floor((num / 10).toFixed(0).toString().length);
     const r = unit % 3;
     const fixedNumerator = parseFloat(Number('1.0e+' + (unit - r)).toFixed(2));
     const x = Math.abs(Number(num)) / fixedNumerator;
     return x.toFixed(2) + ' ' + units[Math.floor(unit / 3) - 2];
   } else {
-    return Math.round(num);
+    return num;
   }
 }
 

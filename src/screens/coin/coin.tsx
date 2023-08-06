@@ -30,7 +30,6 @@ const CoinScreen = (props: CoinScreenProps) => {
       statusCount: StringOptions.Empty,
     },
   });
-  //const [marketData, setMarketData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
   const fetchSocials = async () => {

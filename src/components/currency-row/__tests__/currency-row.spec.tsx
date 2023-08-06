@@ -10,16 +10,15 @@ describe('Currency row', () => {
     const {queryByText, queryByTestId} = render(
       <CurrencyRow
         name="name"
-        rank={1}
         price="2"
         marketCap={3}
-        percentageChange={10}
+        percentageChange="10"
         onPress={mockFN}
         showTopBorder={false}
+        imageUrl="s"
       />,
     );
     expect(queryByText('name')).not.toBeNull();
-    expect(queryByText('1.')).not.toBeNull();
     expect(queryByText('$2')).not.toBeNull();
     expect(queryByText('$3')).not.toBeNull();
     const percentageText = queryByText('10%');
@@ -34,15 +33,17 @@ describe('Currency row', () => {
     expect(mockFN).toHaveBeenCalledTimes(1);
   });
   it('Renders red text and top border', () => {
+    const mockFN = jest.fn();
     const {queryByText, queryByTestId} = render(
       <CurrencyRow
         name="name"
-        rank={1}
         price="2"
         marketCap={3}
-        percentageChange={-10}
-        onPress={() => {}}
+        percentageChange="-10"
+        onPress={mockFN}
+        m
         showTopBorder={true}
+        imageUrl="s"
       />,
     );
     const percentageText = queryByText('-10%');

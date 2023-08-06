@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {approximate} from '@core/constants';
 import styles from './social-footer.styles';
 
 export enum StringOptions {
@@ -34,7 +33,7 @@ const SocialFooter = (props: SocialFooterProps) => {
     if ((arg as StringOptions).length !== undefined) {
       return arg;
     } else {
-      return approximate(arg as number);
+      return Math.round(arg as number);
     }
   };
 

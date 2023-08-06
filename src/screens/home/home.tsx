@@ -171,7 +171,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   };
 
   const getItemLayout = (
-    data: ArrayLike<CurrencyRowProps> | null | undefined,
+    _data: ArrayLike<CurrencyRowProps> | null | undefined,
     index: number,
   ) => {
     return {
@@ -180,7 +180,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       index,
     };
   };
-  const keyExtractor = (item: CurrencyRowProps, index: number) =>
+  const keyExtractor = (_item: CurrencyRowProps, index: number) =>
     `post-${index}`;
 
   return (

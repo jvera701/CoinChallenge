@@ -29,7 +29,7 @@ describe('Header Data', () => {
       'ETH.D',
     ];
 
-    for (let expectedString of expectedArray) {
+    for (const expectedString of expectedArray) {
       expect(queryByText(expectedString)).not.toBeNull();
     }
   });

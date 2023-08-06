@@ -1,4 +1,4 @@
-import {DetailCoinData} from '@api/api';
+import type {DetailCoinData} from '@api/api';
 
 const initialStore: DetailCoinData = {
   price_usd: '',

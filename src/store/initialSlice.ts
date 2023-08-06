@@ -1,17 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import initialStore from './initialState';
-import type {Store} from './initialState';
+import type {DetailCoinData} from '@api/api';
 
 export const storeSlice = createSlice({
   name: 'store',
   initialState: initialStore,
   reducers: {
-    updateStore: (state, action: PayloadAction<Store>) => {
-      state.price_usd = action.payload.price_usd;
-      state.percent_change_7d = action.payload.percent_change_7d;
-      state.percent_change_24h = action.payload.percent_change_24h;
-      state.percent_change_1h = action.payload.percent_change_1h;
-      state.symbol = action.payload.symbol;
+    updateStore: (_state, action: PayloadAction<DetailCoinData>) => {
+      return action.payload;
     },
   },
 });
