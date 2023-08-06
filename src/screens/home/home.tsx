@@ -40,10 +40,20 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const dispatch = useAppDispatch();
-  const MAX_COINS_PER_PAGE = 20;
+  const MAX_COINS_PER_PAGE = 40;
+
+  const getLimit = () => {
+    if (globalData === undefined) {
+      return MAX_COINS_PER_PAGE;
+    } else {
+      return start + MAX_COINS_PER_PAGE < globalData?.coins
+        ? MAX_COINS_PER_PAGE
+        : globalData?.coins - start;
+    }
+  };
 
   const getCoinData = async () => {
-    const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
+    const answer = await getAllCoins(start, getLimit());
     if (!('error' in answer)) {
       const newAns = answer.data.map((coin, index) => {
         const onPressFunc = () => {
@@ -83,7 +93,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     if (!('error' in answer)) {
       const first = answer[0];
       setGlobalData({
-        coins: 200,
+        coins: first.coins_count,
         marketCap: first.total_mcap,
         totalVolume: first.total_volume,
         markets: first.active_markets,
@@ -136,13 +146,12 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const getFooter = () => {
     const loadedAndNotSearch = globalData !== undefined && search === '';
-    const showEnd = loadedAndNotSearch && coinData.length === globalData?.coins;
-
+    const showEnd = loadedAndNotSearch && coinData.length >= globalData?.coins;
     const showLoader =
       loadedAndNotSearch && coinData.length < globalData?.coins;
     return (
-      <View>
-        {showEnd && <Text>{'This is the end'}</Text>}
+      <View style={styles.endLoader}>
+        {showEnd && <Text style={styles.endText}>{'This is the end'}</Text>}
         {showLoader && (
           <ActivityIndicator size="small" style={styles.topLoader} />
         )}
@@ -161,6 +170,8 @@ const HomeScreen = (props: HomeScreenProps) => {
     });
     const result = fuse.search(search);
     const finalResult: CurrencyRowProps[] = [];
+
+    // no result returns an empty object
     if (result.length) {
       setCoinData(result.map(item => item.item));
     } else {

@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from '@testing-library/react-native';
 import DataHeader from '../data-header';
 
-describe('Header Data', () => {
+describe('Data Header', () => {
   it('Renders correctly', () => {
     const {queryByText} = render(
       <DataHeader
@@ -21,7 +21,7 @@ describe('Header Data', () => {
       '5',
       'btc',
       'eth',
-      'Coins',
+      'Coins List',
       'Markets',
       'Market Cap',
       'BTC.D',

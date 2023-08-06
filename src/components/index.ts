@@ -1,7 +1,7 @@
 import CurrencyRow from './currency-row/currency-row';
 import DataHeader from './data-header/data-header';
 import CoinHeader from './coin-header/coin-header';
-import SocialFooter, {StringOptions} from './social-footer/social-footer';
+import SocialFooter, {SocialStringOptions} from './social-footer/social-footer';
 import SearchInput from './search-input/search-input';
 
 import type {CurrencyRowProps} from './currency-row/currency-row';
@@ -12,7 +12,7 @@ export {
   CurrencyRow,
   DataHeader,
   CoinHeader,
-  StringOptions,
+  SocialStringOptions,
   SocialFooter,
   SearchInput,
 };

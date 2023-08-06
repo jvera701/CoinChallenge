@@ -18,8 +18,10 @@ export function approximate(num: number) {
     const units = ['M', 'B', 'T', 'Q'];
     const unit = Math.floor((num / 10).toFixed(0).toString().length);
     const r = unit % 3;
-    const fixedNumerator = parseFloat(Number('1.0e+' + (unit - r)).toFixed(2));
-    const x = Math.abs(Number(num)) / fixedNumerator;
+    const fixedDenominator = parseFloat(
+      Number('1.0e+' + (unit - r)).toFixed(2),
+    );
+    const x = Math.abs(Number(num)) / fixedDenominator;
     return x.toFixed(2) + ' ' + units[Math.floor(unit / 3) - 2];
   } else {
     return num;

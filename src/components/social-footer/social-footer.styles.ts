@@ -6,6 +6,8 @@ interface Styles {
   rowContainer: ViewStyle;
   boldSubtitle: TextStyle;
   regularText: TextStyle;
+  alignRight: TextStyle;
+  textContainer: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -28,6 +30,12 @@ const styles = StyleSheet.create<Styles>({
     fontSize: scaleSize(18),
     fontWeight: 'normal',
     color: 'black',
+  },
+  alignRight: {
+    textAlign: 'right',
+  },
+  textContainer: {
+    flex: 1,
   },
 });
 

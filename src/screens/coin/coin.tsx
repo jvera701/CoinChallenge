@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {ActivityIndicator, SafeAreaView} from 'react-native';
 import styles from './coin.styles';
 import {getSocialData} from '@api/api';
-import {CoinHeader, StringOptions, SocialFooter} from '@components';
+import {CoinHeader, SocialStringOptions, SocialFooter} from '@components';
 import {getUrl} from '@core/constants';
 
 import type {SocialType} from '@components';
@@ -22,12 +22,12 @@ const CoinScreen = (props: CoinScreenProps) => {
   const storedData = useSelector((state: RootState) => state.info);
   const [socialData, setSocialData] = React.useState<SocialType>({
     reddit: {
-      users: StringOptions.Empty,
-      subscribers: StringOptions.Empty,
+      users: SocialStringOptions.Empty,
+      subscribers: SocialStringOptions.Empty,
     },
     twitter: {
-      followers: StringOptions.Empty,
-      statusCount: StringOptions.Empty,
+      followers: SocialStringOptions.Empty,
+      statusCount: SocialStringOptions.Empty,
     },
   });
   const [loading, setLoading] = React.useState(false);
@@ -39,12 +39,12 @@ const CoinScreen = (props: CoinScreenProps) => {
     if (result === '') {
       const answer = {
         reddit: {
-          users: StringOptions.NotFound,
-          subscribers: StringOptions.NotFound,
+          users: SocialStringOptions.NotFound,
+          subscribers: SocialStringOptions.NotFound,
         },
         twitter: {
-          followers: StringOptions.NotFound,
-          statusCount: StringOptions.NotFound,
+          followers: SocialStringOptions.NotFound,
+          statusCount: SocialStringOptions.NotFound,
         },
       };
       setSocialData(answer);
@@ -52,12 +52,12 @@ const CoinScreen = (props: CoinScreenProps) => {
       const {reddit, twitter} = result;
       const answer = {
         reddit: {
-          users: reddit?.avg_active_users || StringOptions.NotFound,
-          subscribers: reddit?.subscribers || StringOptions.NotFound,
+          users: reddit?.avg_active_users || SocialStringOptions.NotFound,
+          subscribers: reddit?.subscribers || SocialStringOptions.NotFound,
         },
         twitter: {
-          followers: twitter?.followers_count || StringOptions.NotFound,
-          statusCount: twitter?.status_count || StringOptions.NotFound,
+          followers: twitter?.followers_count || SocialStringOptions.NotFound,
+          statusCount: twitter?.status_count || SocialStringOptions.NotFound,
         },
       };
       setSocialData(answer);
