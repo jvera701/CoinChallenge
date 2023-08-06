@@ -14,6 +14,7 @@ const styles = StyleSheet.create<Styles>({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginBottom: scaleSize(10),
   },
   boldedText: {
     fontSize: scaleSize(18),

@@ -16,9 +16,12 @@ const DataHeader = (props: DataHeaderProps) => {
   const {coins, marketCap, totalVolume, markets, btcD, ethD} = props;
   return (
     <View>
+      <View style={styles.textAlign}>
+        <Text style={styles.headerTitle}>{'Coins List'}</Text>
+      </View>
       <View style={styles.container}>
         <View>
-          <Text style={styles.boldedText}>{'Coins'}</Text>
+          <Text style={styles.boldedText}>{'# of Coins'}</Text>
           <Text style={styles.regularText}>{coins}</Text>
           <Text style={styles.boldedText}>{'Markets'}</Text>
           <Text style={styles.regularText}>{markets}</Text>
@@ -35,9 +38,6 @@ const DataHeader = (props: DataHeaderProps) => {
           <Text style={styles.boldedText}>{'ETH.D'}</Text>
           <Text style={styles.regularText}>{ethD}</Text>
         </View>
-      </View>
-      <View style={styles.textAlign}>
-        <Text style={styles.headerTitle}>{'Coins List'}</Text>
       </View>
     </View>
   );

@@ -1,11 +1,11 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
-import HeaderData from '../data-header';
+import DataHeader from '../data-header';
 
 describe('Header Data', () => {
   it('Renders correctly', () => {
     const {queryByText} = render(
-      <HeaderData
+      <DataHeader
         coins={2}
         marketCap={3}
         totalVolume={4}

@@ -5,8 +5,9 @@ import {
   ActivityIndicator,
   View,
   ListRenderItem,
+  Text,
 } from 'react-native';
-import {CurrencyRow, HeaderData, SearchInput} from '@components';
+import {CurrencyRow, DataHeader, SearchInput} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
@@ -39,7 +40,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const dispatch = useAppDispatch();
-  const MAX_COINS_PER_PAGE = 50;
+  const MAX_COINS_PER_PAGE = 20;
 
   const getCoinData = async () => {
     const answer = await getAllCoins(start, MAX_COINS_PER_PAGE);
@@ -82,7 +83,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     if (!('error' in answer)) {
       const first = answer[0];
       setGlobalData({
-        coins: first.coins_count,
+        coins: 200,
         marketCap: first.total_mcap,
         totalVolume: first.total_volume,
         markets: first.active_markets,
@@ -133,6 +134,22 @@ const HomeScreen = (props: HomeScreenProps) => {
     }
   };
 
+  const getFooter = () => {
+    const loadedAndNotSearch = globalData !== undefined && search === '';
+    const showEnd = loadedAndNotSearch && coinData.length === globalData?.coins;
+
+    const showLoader =
+      loadedAndNotSearch && coinData.length < globalData?.coins;
+    return (
+      <View>
+        {showEnd && <Text>{'This is the end'}</Text>}
+        {showLoader && (
+          <ActivityIndicator size="small" style={styles.topLoader} />
+        )}
+      </View>
+    );
+  };
+
   // Doing fuzzy search with Fuse library
   const fuzzySearch = () => {
     if (search === '' && !firstRender) {
@@ -154,7 +171,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const getHeader = () => {
     return globalData !== undefined ? (
       <View>
-        <HeaderData {...globalData} />
+        <DataHeader {...globalData} />
         <SearchInput
           placeholder="Search Here"
           value={search}
@@ -192,6 +209,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         refreshing={loading}
         onEndReachedThreshold={0.2}
         ListHeaderComponent={getHeader()}
+        ListFooterComponent={getFooter()}
         getItemLayout={getItemLayout}
         keyExtractor={keyExtractor}
       />
