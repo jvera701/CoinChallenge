@@ -26,12 +26,14 @@ type ItemData = {
   item: CurrencyRowProps;
 };
 
+interface AllCurrencyData extends CurrencyRowProps {
+  symbol: string;
+}
+
 const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
-  const [coinData, setCoinData] = React.useState<CurrencyRowProps[]>([]);
-  const [startingData, setStartingData] = React.useState<CurrencyRowProps[]>(
-    [],
-  );
+  const [coinData, setCoinData] = React.useState<AllCurrencyData[]>([]);
+  const [startingData, setStartingData] = React.useState<AllCurrencyData[]>([]);
   const [firstRender, setFirstRender] = React.useState(true);
   const [globalData, setGlobalData] = React.useState<
     DataHeaderProps | undefined
@@ -56,6 +58,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     const answer = await getAllCoins(start, getLimit());
     if (!('error' in answer)) {
       const newAns = answer.data.map((coin, index) => {
+        const symbol = coin.symbol.toLowerCase();
         const onPressFunc = () => {
           dispatch(
             updateStore({
@@ -63,7 +66,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               percent_change_7d: coin.percent_change_7d,
               percent_change_24h: coin.percent_change_24h,
               percent_change_1h: coin.percent_change_1h,
-              symbol: coin.symbol.toLowerCase(),
+              symbol: symbol,
             }),
           );
           navigation.navigate('Coin Screen', {name: coin.name, id: coin.id});
@@ -77,6 +80,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           showTopBorder: index + coinData.length === 0,
           imageUrl: getUrl(coin.symbol.toLowerCase()),
           key: index + coinData.length,
+          symbol: symbol,
         };
       });
       // concat is faster than spread
@@ -166,10 +170,10 @@ const HomeScreen = (props: HomeScreenProps) => {
       return;
     }
     const fuse = new Fuse(coinData, {
-      keys: ['name'],
+      keys: ['name', 'symbol'],
     });
     const result = fuse.search(search);
-    const finalResult: CurrencyRowProps[] = [];
+    const finalResult: AllCurrencyData[] = [];
 
     // no result returns an empty object
     if (result.length) {
