@@ -7,7 +7,7 @@ import {
   ListRenderItem,
   Text,
 } from 'react-native';
-import {CurrencyRow, DataHeader, SearchInput} from '@components';
+import {CurrencyRow, DataHeader, SearchInput, ErrorAlert} from '@components';
 import {getAllCoins, getGlobalData} from '@api/api';
 import styles from './home.styles';
 import {useAppDispatch} from '@store/hooks';
@@ -35,11 +35,13 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [coinData, setCoinData] = React.useState<AllCurrencyData[]>([]);
   const [startingData, setStartingData] = React.useState<AllCurrencyData[]>([]);
   const [firstRender, setFirstRender] = React.useState(true);
+  const [globalError, setGlobalError] = React.useState(false);
+  const [coinError, setCoinError] = React.useState(false);
   const [globalData, setGlobalData] = React.useState<
     DataHeaderProps | undefined
   >();
   const [start, setStart] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
+  const [loadingCoin, setLoadingCoin] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const dispatch = useAppDispatch();
   const MAX_COINS_PER_PAGE = 40;
@@ -55,6 +57,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   };
 
   const getCoinData = async () => {
+    setCoinError(false);
     const answer = await getAllCoins(start, getLimit());
     if (!('error' in answer)) {
       const newAns = answer.data.map((coin, index) => {
@@ -89,10 +92,13 @@ const HomeScreen = (props: HomeScreenProps) => {
         setStartingData(newAns);
         setFirstRender(false);
       }
+    } else {
+      setCoinError(true);
     }
   };
 
   const getGlobal = async () => {
+    setGlobalError(false);
     const answer = await getGlobalData();
     if (!('error' in answer)) {
       const first = answer[0];
@@ -104,6 +110,8 @@ const HomeScreen = (props: HomeScreenProps) => {
         btcD: first.btc_d,
         ethD: first.eth_d,
       });
+    } else {
+      setGlobalError(true);
     }
   };
 
@@ -142,17 +150,19 @@ const HomeScreen = (props: HomeScreenProps) => {
       coinData.length < globalData?.coins &&
       search === ''
     ) {
-      setLoading(true);
+      setLoadingCoin(true);
       setStart(start + MAX_COINS_PER_PAGE);
-      setLoading(false);
+      setLoadingCoin(false);
     }
   };
 
   const getFooter = () => {
-    const loadedAndNotSearch = globalData !== undefined && search === '';
+    const loadedAndNotSearch =
+      !coinError && globalData !== undefined && search === '';
     const showEnd = loadedAndNotSearch && coinData.length >= globalData?.coins;
     const showLoader =
-      loadedAndNotSearch && coinData.length < globalData?.coins;
+      !firstRender && loadedAndNotSearch && coinData.length < globalData?.coins;
+
     return (
       <View style={styles.endLoader}>
         {showEnd && <Text style={styles.endText}>{'This is the end'}</Text>}
@@ -184,22 +194,33 @@ const HomeScreen = (props: HomeScreenProps) => {
   };
 
   const getHeader = () => {
-    return globalData !== undefined ? (
-      <View>
-        <DataHeader {...globalData} />
-        <SearchInput
-          placeholder="Search Here"
-          value={search}
-          onChangeText={newText => setSearch(newText)}
-          defaultValue=""
-          onClear={() => {
-            setSearch('');
-          }}
-        />
-      </View>
-    ) : (
-      <ActivityIndicator size="large" style={styles.topLoader} />
-    );
+    if (globalError) {
+      return <ErrorAlert />;
+    }
+    if (globalData !== undefined) {
+      return (
+        <View>
+          <DataHeader {...globalData} />
+          <SearchInput
+            placeholder="Search Here"
+            value={search}
+            onChangeText={newText => setSearch(newText)}
+            defaultValue=""
+            onClear={() => {
+              setSearch('');
+            }}
+          />
+        </View>
+      );
+    }
+  };
+
+  const getEmpty = () => {
+    if (coinError) {
+      return <ErrorAlert />;
+    } else {
+      return <ActivityIndicator size="large" style={styles.topLoader} />;
+    }
   };
 
   const getItemLayout = (
@@ -221,10 +242,11 @@ const HomeScreen = (props: HomeScreenProps) => {
         data={coinData}
         renderItem={renderItem}
         onEndReached={fetchMore}
-        refreshing={loading}
+        refreshing={loadingCoin}
         onEndReachedThreshold={0.2}
         ListHeaderComponent={getHeader()}
         ListFooterComponent={getFooter()}
+        ListEmptyComponent={getEmpty()}
         getItemLayout={getItemLayout}
         keyExtractor={keyExtractor}
       />

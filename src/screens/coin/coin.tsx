@@ -3,7 +3,12 @@ import {useSelector} from 'react-redux';
 import {ActivityIndicator, SafeAreaView} from 'react-native';
 import styles from './coin.styles';
 import {getSocialData} from '@api/api';
-import {CoinHeader, SocialStringOptions, SocialFooter} from '@components';
+import {
+  CoinHeader,
+  SocialStringOptions,
+  SocialFooter,
+  ErrorAlert,
+} from '@components';
 import {getUrl} from '@core/constants';
 
 import type {SocialType} from '@components';
@@ -31,8 +36,10 @@ const CoinScreen = (props: CoinScreenProps) => {
     },
   });
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
   const fetchSocials = async () => {
+    setError(false);
     setLoading(true);
     const result = await getSocialData(id);
 
@@ -61,6 +68,8 @@ const CoinScreen = (props: CoinScreenProps) => {
         },
       };
       setSocialData(answer);
+    } else {
+      setError(true);
     }
     setLoading(false);
   };
@@ -74,29 +83,33 @@ const CoinScreen = (props: CoinScreenProps) => {
   );
   const {reddit, twitter} = socialData;
 
-  return (
-    <SafeAreaView style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" style={styles.topLoader} />
-      ) : (
-        <React.Fragment>
-          <CoinHeader
-            imageUrl={getUrl(storedData.symbol)}
-            priceUsd={storedData.price_usd}
-            change1h={storedData.percent_change_1h}
-            change24h={storedData.percent_change_24h}
-            change7d={storedData.percent_change_7d}
-          />
-          <SocialFooter
-            redditSubs={reddit.subscribers}
-            redditUsers={reddit.users}
-            twitterFollow={twitter.followers}
-            twitterStatus={twitter.statusCount}
-          />
-        </React.Fragment>
-      )}
-    </SafeAreaView>
-  );
+  const getBody = () => {
+    if (error) {
+      return <ErrorAlert />;
+    }
+    if (loading) {
+      return <ActivityIndicator size="large" style={styles.topLoader} />;
+    }
+    return (
+      <React.Fragment>
+        <CoinHeader
+          imageUrl={getUrl(storedData.symbol)}
+          priceUsd={storedData.price_usd}
+          change1h={storedData.percent_change_1h}
+          change24h={storedData.percent_change_24h}
+          change7d={storedData.percent_change_7d}
+        />
+        <SocialFooter
+          redditSubs={reddit.subscribers}
+          redditUsers={reddit.users}
+          twitterFollow={twitter.followers}
+          twitterStatus={twitter.statusCount}
+        />
+      </React.Fragment>
+    );
+  };
+
+  return <SafeAreaView style={styles.container}>{getBody()}</SafeAreaView>;
 };
 
 export default CoinScreen;

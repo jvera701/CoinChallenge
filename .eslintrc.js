@@ -28,5 +28,5 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {},
-  ignorePatterns: ['.eslintrc.js', 'metro.config.js'],
+  ignorePatterns: ['.eslintrc.js', 'metro.config.js', 'coverage/*'],
 };
