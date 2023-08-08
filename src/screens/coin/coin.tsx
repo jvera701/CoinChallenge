@@ -21,6 +21,11 @@ type CoinScreenProps = NativeStackScreenProps<
   'Coin Screen'
 >;
 
+/**
+ * Coin Screen showed when item is pressed
+ * @param props As explained on RootStackParamList, the screen receives the name and the id.
+ * @returns
+ */
 const CoinScreen = (props: CoinScreenProps) => {
   const {route} = props;
   const {id} = route.params;

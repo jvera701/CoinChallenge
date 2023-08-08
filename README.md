@@ -1,6 +1,6 @@
 # ChallengeProject App
 
-This is Jose Alejandro Vera Coin Challenge app. It is an ios and android app.
+This is Jose Alejandro Vera CoinChallenge app. It is an ios and android app.
 
 ## Getting Started
 
@@ -62,7 +62,7 @@ While on Android Studio installation wizard, make sure the boxes next to all of 
 - Android SDK Platform
 - Android Virtual Device
 
-Open the project in Android Studio, make sure you select the chaching-app-native/android/app directory
+Open the project in Android Studio, make sure you select the CoinChallenge/android/app directory
 
 Android Studio installs the latest Android SDK by default. Building a React Native app with native code, however, requires the Android 12 (S) SDK in particular. Additional Android SDKs can be installed through the SDK Manager in Android Studio.
 
@@ -153,6 +153,7 @@ npm run lint
 - Each component has it's own unit test
 - Used ESLinter with additional plugins such as @react-native-community
 - Added pre commit hooks so that the code can only be committed after linting and after the code passes tests
+- Used Fuse library to do fuzzy search when searching coin
 
 ## Optimization techniques used
 

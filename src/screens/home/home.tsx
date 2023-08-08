@@ -30,6 +30,11 @@ interface AllCurrencyData extends CurrencyRowProps {
   symbol: string;
 }
 
+/**
+ * Shows the first screen
+ * @param props Home screen default props
+ * @returns
+ */
 const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
   const [coinData, setCoinData] = React.useState<AllCurrencyData[]>([]);
