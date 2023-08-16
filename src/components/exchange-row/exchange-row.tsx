@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
 import styles from './exchange-row.styles';
 import {approximate} from '@core/constants';
@@ -47,7 +47,9 @@ const ExchangeRow = (props: ExchangeRowProps) => {
           <View style={styles.innerView}>
             <Text style={styles.bolded}>{'Volume: '}</Text>
             <Text style={styles.volume} numberOfLines={1} ellipsizeMode="tail">
-              {approximate(volumeUsd)}
+              {volumeUsd > 1000000
+                ? approximate(volumeUsd)
+                : Number(volumeUsd.toPrecision(5))}
             </Text>
           </View>
         </React.Fragment>
@@ -56,4 +58,4 @@ const ExchangeRow = (props: ExchangeRowProps) => {
   );
 };
 
-export default ExchangeRow;
+export default memo(ExchangeRow);

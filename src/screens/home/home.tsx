@@ -30,6 +30,13 @@ interface AllCurrencyData extends CurrencyRowProps {
   symbol: string;
 }
 
+function useFirstRender() {
+  const ref = React.useRef(true);
+  const firstRender = ref.current;
+  ref.current = false;
+  return firstRender;
+}
+
 /**
  * Shows the first screen
  * @param props Home screen default props
@@ -39,7 +46,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
   const [coinData, setCoinData] = React.useState<AllCurrencyData[]>([]);
   const [startingData, setStartingData] = React.useState<AllCurrencyData[]>([]);
-  const [firstRender, setFirstRender] = React.useState(true);
+  const firstRender = useFirstRender();
   const [globalError, setGlobalError] = React.useState(false);
   const [coinError, setCoinError] = React.useState(false);
   const [globalData, setGlobalData] = React.useState<
@@ -96,7 +103,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       setCoinData(prevCoin => prevCoin.concat(newAns));
       if (firstRender) {
         setStartingData(newAns);
-        setFirstRender(false);
       }
     } else {
       setCoinError(true);
@@ -163,11 +169,14 @@ const HomeScreen = (props: HomeScreenProps) => {
   };
 
   const getFooter = () => {
-    const loadedAndNotSearch =
+    const loadedAndNotSearching =
       !coinError && globalData !== undefined && search === '';
-    const showEnd = loadedAndNotSearch && coinData.length >= globalData?.coins;
+    const showEnd =
+      loadedAndNotSearching && coinData.length >= globalData?.coins;
     const showLoader =
-      !firstRender && loadedAndNotSearch && coinData.length < globalData?.coins;
+      coinData.length > 0 &&
+      loadedAndNotSearching &&
+      coinData.length < globalData?.coins;
 
     return (
       <View style={styles.endLoader}>
@@ -224,7 +233,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   const getEmpty = () => {
     if (coinError) {
       return <ErrorAlert />;
-    } else {
+    } else if (search === '') {
       return <ActivityIndicator size="large" style={styles.topLoader} />;
     }
   };

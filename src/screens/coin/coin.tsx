@@ -49,7 +49,6 @@ const CoinScreen = (props: CoinScreenProps) => {
   const [exchangeData, setExchangeData] = React.useState<ExchangeRowProps[]>(
     [],
   );
-  const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
   const fetchSocials = async () => {
@@ -107,20 +106,20 @@ const CoinScreen = (props: CoinScreenProps) => {
         };
       });
       setExchangeData(answerArray);
+    } else {
+      setError(false);
     }
   };
 
-  const renderItem = (oneItem: ItemData) => {
+  const renderItem = React.useCallback((oneItem: ItemData) => {
     const {item} = oneItem;
     return <ExchangeRow {...item} />;
-  };
+  }, []);
 
   React.useEffect(
     () => {
-      setLoading(true);
       fetchSocials();
       fetchCoin();
-      setLoading(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -130,9 +129,6 @@ const CoinScreen = (props: CoinScreenProps) => {
   const getBody = () => {
     if (error) {
       return <ErrorAlert />;
-    }
-    if (loading) {
-      return <ActivityIndicator size="large" style={styles.topLoader} />;
     }
     return (
       <React.Fragment>
@@ -147,15 +143,22 @@ const CoinScreen = (props: CoinScreenProps) => {
             />
           }
           ListFooterComponent={
-            <SocialFooter
-              redditSubs={reddit.subscribers}
-              redditUsers={reddit.users}
-              twitterFollow={twitter.followers}
-              twitterStatus={twitter.statusCount}
-            />
+            exchangeData.length > 0 ? (
+              <SocialFooter
+                redditSubs={reddit.subscribers}
+                redditUsers={reddit.users}
+                twitterFollow={twitter.followers}
+                twitterStatus={twitter.statusCount}
+              />
+            ) : (
+              <React.Fragment />
+            )
           }
           data={exchangeData}
           renderItem={renderItem}
+          ListEmptyComponent={
+            <ActivityIndicator size="large" style={styles.topLoader} />
+          }
         />
       </React.Fragment>
     );
