@@ -77,7 +77,8 @@ const HomeScreen = (props: HomeScreenProps) => {
               symbol: symbol,
             }),
           );
-          navigation.navigate('Coin Screen', {name: coin.name, id: coin.id});
+          const title = coin.name + ' - ' + coin.symbol;
+          navigation.navigate('Coin Screen', {name: title, id: coin.id});
         };
         return {
           name: coin.name,

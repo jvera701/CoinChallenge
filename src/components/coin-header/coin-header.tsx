@@ -45,6 +45,9 @@ const CoinHeader = (props: CoinHeaderProps) => {
           </Text>
         </View>
       </View>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.title}>{'Market List'}</Text>
+      </View>
     </View>
   );
 };

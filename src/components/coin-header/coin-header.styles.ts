@@ -9,6 +9,8 @@ interface Styles {
   price: TextStyle;
   topContainer: ViewStyle;
   image: ImageStyle;
+  title: TextStyle;
+  bottomContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -17,7 +19,7 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: 'white',
     marginHorizontal: scaleSize(10),
     marginTop: scaleSize(10),
-    maxHeight: scaleSize(200),
+    maxHeight: scaleSize(230),
   },
   rowContainer: {
     flexDirection: 'row',
@@ -49,6 +51,17 @@ const styles = StyleSheet.create<Styles>({
     width: scaleSize(100),
     height: scaleSize(100),
     resizeMode: 'contain',
+  },
+  title: {
+    fontSize: scaleSize(20),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: scaleSize(10),
   },
 });
 

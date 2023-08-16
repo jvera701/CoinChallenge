@@ -137,10 +137,10 @@ npm run lint
 /src
    /api - Folder with all api calls
    /components - Folder with all components
-   __tests__ - Folder with the specific component test
-      example-component.spec.tsx
-   example-component.tsx
-   example-component.styles.ts
+      __tests__ - Folder with the specific component test
+         example-component.spec.tsx
+         example-component.tsx
+         example-component.styles.ts
    /navigation - Folder that defines the Native Stack Navigator
    /screens - Folder with each screen
    /store - Folder with all files in a RTK store

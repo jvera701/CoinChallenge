@@ -60,6 +60,17 @@ type SocialData = {
   };
 };
 
+type ExchangeData = {
+  name: string | null;
+  base: string | null;
+  quote: string | null;
+  price: number | null;
+  price_usd: number | null;
+  volume: number | null;
+  volume_usd: number | null;
+  time: number | null;
+};
+
 const getGlobalData = async () => {
   try {
     const response = await API.get<GlobalData[]>('/global/');
@@ -107,4 +118,20 @@ const getSocialData = async (id: string) => {
   }
 };
 
-export {getGlobalData, getAllCoins, getSocialData};
+const getExchanges = async (id: string) => {
+  try {
+    const config = {
+      params: {
+        id: id,
+      },
+    };
+    const response = await API.get<ExchangeData[]>('/coin/markets/', config);
+    return response.data;
+  } catch (e) {
+    return {
+      error: 'Error',
+    };
+  }
+};
+
+export {getGlobalData, getAllCoins, getSocialData, getExchanges};

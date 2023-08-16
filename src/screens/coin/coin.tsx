@@ -1,17 +1,18 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {ActivityIndicator, SafeAreaView} from 'react-native';
+import {ActivityIndicator, SafeAreaView, FlatList} from 'react-native';
 import styles from './coin.styles';
-import {getSocialData} from '@api/api';
+import {getSocialData, getExchanges} from '@api/api';
 import {
   CoinHeader,
   SocialStringOptions,
   SocialFooter,
   ErrorAlert,
+  ExchangeRow,
 } from '@components';
 import {getUrl} from '@core/constants';
 
-import type {SocialType} from '@components';
+import type {SocialType, ExchangeRowProps} from '@components';
 import type {RootState} from '@store/store';
 import type {RootStackParamList} from '@navigation';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -20,6 +21,11 @@ type CoinScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'Coin Screen'
 >;
+
+type ItemData = {
+  index: number;
+  item: ExchangeRowProps;
+};
 
 /**
  * Coin Screen showed when item is pressed
@@ -40,12 +46,14 @@ const CoinScreen = (props: CoinScreenProps) => {
       statusCount: SocialStringOptions.Empty,
     },
   });
+  const [exchangeData, setExchangeData] = React.useState<ExchangeRowProps[]>(
+    [],
+  );
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
   const fetchSocials = async () => {
     setError(false);
-    setLoading(true);
     const result = await getSocialData(id);
 
     if (result === '') {
@@ -76,12 +84,43 @@ const CoinScreen = (props: CoinScreenProps) => {
     } else {
       setError(true);
     }
-    setLoading(false);
+  };
+
+  const fetchCoin = async () => {
+    const result = await getExchanges(id);
+    if (!('error' in result)) {
+      const answerArray = result.map((data, index) => {
+        const hasANull =
+          data.name === null ||
+          data.base === null ||
+          data.quote === null ||
+          data.price === null ||
+          data.volume_usd === null;
+        return {
+          name: data.name || '',
+          base: data.base || '',
+          quote: data.quote || '',
+          price: data.price || 0,
+          volumeUsd: data.volume_usd || 0,
+          showNull: hasANull,
+          showTopBorder: index === 0,
+        };
+      });
+      setExchangeData(answerArray);
+    }
+  };
+
+  const renderItem = (oneItem: ItemData) => {
+    const {item} = oneItem;
+    return <ExchangeRow {...item} />;
   };
 
   React.useEffect(
     () => {
+      setLoading(true);
       fetchSocials();
+      fetchCoin();
+      setLoading(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -97,18 +136,26 @@ const CoinScreen = (props: CoinScreenProps) => {
     }
     return (
       <React.Fragment>
-        <CoinHeader
-          imageUrl={getUrl(storedData.symbol)}
-          priceUsd={storedData.price_usd}
-          change1h={storedData.percent_change_1h}
-          change24h={storedData.percent_change_24h}
-          change7d={storedData.percent_change_7d}
-        />
-        <SocialFooter
-          redditSubs={reddit.subscribers}
-          redditUsers={reddit.users}
-          twitterFollow={twitter.followers}
-          twitterStatus={twitter.statusCount}
+        <FlatList
+          ListHeaderComponent={
+            <CoinHeader
+              imageUrl={getUrl(storedData.symbol)}
+              priceUsd={storedData.price_usd}
+              change1h={storedData.percent_change_1h}
+              change24h={storedData.percent_change_24h}
+              change7d={storedData.percent_change_7d}
+            />
+          }
+          ListFooterComponent={
+            <SocialFooter
+              redditSubs={reddit.subscribers}
+              redditUsers={reddit.users}
+              twitterFollow={twitter.followers}
+              twitterStatus={twitter.statusCount}
+            />
+          }
+          data={exchangeData}
+          renderItem={renderItem}
         />
       </React.Fragment>
     );
