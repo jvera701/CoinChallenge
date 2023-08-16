@@ -27,7 +27,7 @@ const ExchangeRow = (props: ExchangeRowProps) => {
   return (
     <View style={[styles.container, showTopBorder && styles.addTopBorder]}>
       {showNull ? (
-        <Text>{'Not found '}</Text>
+        <Text>{'Not found'}</Text>
       ) : (
         <React.Fragment>
           <Text
